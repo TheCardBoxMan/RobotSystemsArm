@@ -290,119 +290,132 @@ t1 = 0
 roi = ()
 last_x, last_y = 0, 0
 
-
 # Function to perform perception tasks on the input image
-def run(img):
-    # Global variables used within the function
-    global roi
-    global rect
-    global count
-    global track
-    global get_roi
-    global center_list
-    global __isRunning
-    global unreachable
-    global detect_color
-    global action_finish
-    global rotation_angle
-    global last_x, last_y
-    global world_X, world_Y
-    global world_x, world_y
-    global start_count_t1, t1
-    global start_pick_up, first_move
-    
-    # Make a copy of the input image
-    img_copy = img.copy()
-    img_h, img_w = img.shape[:2]
-    
-    # Draw horizontal and vertical lines on the image
-    cv2.line(img, (0, int(img_h / 2)), (img_w, int(img_h / 2)), (0, 0, 200), 1)
-    cv2.line(img, (int(img_w / 2), 0), (int(img_w / 2), img_h), (0, 0, 200), 1)
-    
-    # Check if the program is running
-    if not __isRunning:
-        return img
-     
-    # Resize the image to a predefined size and apply Gaussian blur
-    frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
-    frame_gb = cv2.GaussianBlur(frame_resize, (11, 11), 11)
-    
+class Perception:
+    def __init__(self):
+        # Initialize global variables
+        self.roi = None
+        self.rect = None
+        self.count = 0
+        self.track = False
+        self.get_roi = False
+        self.center_list = []
+        self.__isRunning = False
+        self.unreachable = False
+        self.detect_color = None
+        self.action_finish = False
+        self.rotation_angle = None
+        self.last_x, self.last_y = 0, 0
+        self.world_X, self.world_Y = 0, 0
+        self.world_x, self.world_y = 0, 0
+        self.start_count_t1, self.t1 = False, 0
+        self.start_pick_up, self.first_move = False, False
 
-    # If an object is detected in a specific region of interest, continue tracking it
-    if get_roi and start_pick_up:
-        get_roi = False
-        frame_gb = getMaskROI(frame_gb, roi, size)    
+        # Initialize variables for contour detection
+        self.area_max = 0
+        self.areaMaxContour = 0
+
+
+    #Draws the lines and Gets a color space image
+    def preprocess_image(self,img):
+
+        # Make a copy of the input image
+        self.img_copy = img.copy()
+        self.img_h, self.img_w = img.shape[:2]
     
-    # Convert the image to LAB color space
-    frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)
-    
-    # Initialize variables for contour detection
-    area_max = 0
-    areaMaxContour = 0
-    
-    # If not in the process of picking up an object
-    if not start_pick_up:
-        # Iterate through predefined color ranges
-        for i in color_range:
-            if i in __target_color:
-                detect_color = i
-                # Create a mask based on the detected color range
-                frame_mask = cv2.inRange(frame_lab, color_range[detect_color][0], color_range[detect_color][1])
-                # Perform morphological operations to remove noise
-                opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6, 6), np.uint8))
-                closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, np.ones((6, 6), np.uint8))
-                # Find contours in the masked image
-                contours = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]
-                # Get the largest contour
-                areaMaxContour, area_max = getAreaMaxContour(contours)
+        # Draw horizontal and vertical lines on the image
+        cv2.line(img, (0, int(img_h / 2)), (img_w, int(img_h / 2)), (0, 0, 200), 1)
+        cv2.line(img, (int(img_w / 2), 0), (int(img_w / 2), img_h), (0, 0, 200), 1)
         
-        # If a large enough contour is found
-        if area_max > 2500:
-            # Get the minimum bounding rectangle of the contour
-            rect = cv2.minAreaRect(areaMaxContour)
-            box = np.int0(cv2.boxPoints(rect))
+        # Check if the program is running
+        if not self.__isRunning:
+            return img
+        
+        # Resize the image to a predefined size and apply Gaussian blur
+        frame_resize = cv2.resize(self.img_copy, size, interpolation=cv2.INTER_NEAREST)
+        
+        self.frame_gb = cv2.GaussianBlur(frame_resize, (11, 11), 11)
 
-            # Get the region of interest (ROI) based on the bounding box
-            roi = getROI(box)
-            get_roi = True
+        return self.frame_gb
+    
+    #Get a part of the frame and convert color
+    def Gather_Frame(self,frame_gb):
+        # If an object is detected in a specific region of interest, continue tracking it
+        if self.get_roi and self.start_pick_up:
+            self.get_roi = False
+            frame_gb = getMaskROI(frame_gb, self.roi, size)    
+    
+        # Convert the image to LAB color space
+        frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)
+        
+        return frame_lab
+    
 
-            # Calculate the center coordinates of the object in the image
-            img_centerx, img_centery = getCenter(rect, roi, size, square_length)
-            # Convert image coordinates to real-world coordinates
-            world_x, world_y = convertCoordinate(img_centerx, img_centery, size)
+    def Anaylize_Frame(self,frame_lab):
+        # If not in the process of picking up an object
+        if not start_pick_up:
+            # Iterate through predefined color ranges
+            for i in color_range:
+                if i in __target_color:
+                    detect_color = i
+                    # Create a mask based on the detected color range
+                    frame_mask = cv2.inRange(frame_lab, color_range[detect_color][0], color_range[detect_color][1])
+                    # Perform morphological operations to remove noise
+                    opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6, 6), np.uint8))
+                    closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, np.ones((6, 6), np.uint8))
+                    # Find contours in the masked image
+                    contours = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]
+                    # Get the largest contour
+                    self.areaMaxContour, self.area_max = getAreaMaxContour(contours)
             
-            # Draw contour and center point on the image
-            cv2.drawContours(img, [box], -1, range_rgb[detect_color], 2)
-            cv2.putText(img, '(' + str(world_x) + ',' + str(world_y) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.5, range_rgb[detect_color], 1)
-            
-            # Calculate distance between current and previous coordinates
-            distance = math.sqrt(pow(world_x - last_x, 2) + pow(world_y - last_y, 2))
-            last_x, last_y = world_x, world_y
-            track = True
-            
-            # If the action is finished, update arm movements
-            if action_finish:
-                if distance < 0.3:
-                    # Accumulate coordinates for object tracking
-                    center_list.extend((world_x, world_y))
-                    count += 1
-                    if start_count_t1:
-                        start_count_t1 = False
+            # If a large enough contour is found
+            if self.area_max > 2500:
+                # Get the minimum bounding rectangle of the contour
+                self.rect = cv2.minAreaRect(self.areaMaxContour)
+                box = np.int0(cv2.boxPoints(rect))
+
+                # Get the region of interest (ROI) based on the bounding box
+                self.roi = getROI(box)
+                self.get_roi = True
+
+                # Calculate the center coordinates of the object in the image
+                self.img_centerx, self.img_centery = getCenter(rect, roi, size, square_length)
+                # Convert image coordinates to real-world coordinates
+                self.world_x, self.world_y = convertCoordinate(self.img_centerx, self.img_centery, size)
+                
+                # Draw contour and center point on the image
+                cv2.drawContours(img, [box], -1, range_rgb[detect_color], 2)
+                cv2.putText(img, '(' + str(world_x) + ',' + str(world_y) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10),
+                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, range_rgb[detect_color], 1)
+                
+                # Calculate distance between current and previous coordinates
+                distance = math.sqrt(pow(world_x - last_x, 2) + pow(world_y - last_y, 2))
+                last_x, last_y = world_x, world_y
+                self.track = True
+                
+                # If the action is finished, update arm movements
+                if action_finish:
+                    if distance < 0.3:
+                        # Accumulate coordinates for object tracking
+                        center_list.extend((world_x, world_y))
+                        count += 1
+                        if start_count_t1:
+                            start_count_t1 = False
+                            t1 = time.time()
+                        if time.time() - t1 > 1.5:
+                            self.rotation_angle = rect[2]
+                            start_count_t1 = True
+                            self.world_X, self.world_Y = np.mean(np.array(center_list).reshape(count, 2), axis=0)
+                            count = 0
+                            center_list = []
+                            start_pick_up = True
+                    else:
                         t1 = time.time()
-                    if time.time() - t1 > 1.5:
-                        rotation_angle = rect[2]
                         start_count_t1 = True
-                        world_X, world_Y = np.mean(np.array(center_list).reshape(count, 2), axis=0)
                         count = 0
                         center_list = []
-                        start_pick_up = True
-                else:
-                    t1 = time.time()
-                    start_count_t1 = True
-                    count = 0
-                    center_list = []
-    return img
+        return img
+
 
 if __name__ == '__main__':
     init()
@@ -410,11 +423,21 @@ if __name__ == '__main__':
     __target_color = ('green',)
     my_camera = Camera.Camera()
     my_camera.camera_open()
+    P = Perception()
     while True:
         img = my_camera.frame
         if img is not None:
             frame = img.copy()
-            Frame = run(frame)           
+
+            #New Perception Code
+            proccessed_frame = P.preprocess_image(frame)
+            frame_lab = P.Gather_Frame(proccessed_frame)
+            P.Anaylize_Frame(frame_lab)
+
+
+
+
+
             cv2.imshow('Frame', Frame)
             key = cv2.waitKey(1)
             if key == 27:
