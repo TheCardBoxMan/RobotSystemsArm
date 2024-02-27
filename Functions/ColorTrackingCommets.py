@@ -353,7 +353,7 @@ class Perception:
 
     def Anaylize_Frame(self,frame_lab):
         # If not in the process of picking up an object
-        if not start_pick_up:
+        if not self.start_pick_up:
             # Iterate through predefined color ranges
             for i in color_range:
                 if i in __target_color:
@@ -408,7 +408,7 @@ class Perception:
                             self.world_X, self.world_Y = np.mean(np.array(center_list).reshape(count, 2), axis=0)
                             count = 0
                             center_list = []
-                            start_pick_up = True
+                            self.start_pick_up = True
                     else:
                         t1 = time.time()
                         start_count_t1 = True
