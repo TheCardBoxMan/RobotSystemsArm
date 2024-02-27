@@ -292,7 +292,8 @@ last_x, last_y = 0, 0
 
 # Function to perform perception tasks on the input image
 class Perception:
-    def __init__(self):
+    def __init__(self,__target_color):
+        self.__target_color = __target_color
         # Initialize global variables
         self.roi = None
         self.rect = None
@@ -351,12 +352,12 @@ class Perception:
         return frame_lab
     
 
-    def Anaylize_Frame(self,frame_lab):
+    def Anaylize_Frame(self,frame_lab,):
         # If not in the process of picking up an object
         if not self.start_pick_up:
             # Iterate through predefined color ranges
             for i in color_range:
-                if i in __target_color:
+                if i in self.__target_color:
                     detect_color = i
                     # Create a mask based on the detected color range
                     frame_mask = cv2.inRange(frame_lab, color_range[detect_color][0], color_range[detect_color][1])
@@ -421,9 +422,11 @@ if __name__ == '__main__':
     init()
     start()
     __target_color = ('green',)
+    P = Perception(__target_color)
+
     my_camera = Camera.Camera()
     my_camera.camera_open()
-    P = Perception()
+    
     while True:
         img = my_camera.frame
         if img is not None:
