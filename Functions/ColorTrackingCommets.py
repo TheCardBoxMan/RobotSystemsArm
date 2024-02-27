@@ -294,7 +294,7 @@ last_x, last_y = 0, 0
 class Perception:
     def __init__(self,__target_color):
         self.__target_color = __target_color
-        # Initialize global variables
+        # Initialize variables
         self.roi = None
         self.rect = None
         self.count = 0
@@ -372,7 +372,7 @@ class Perception:
             # If a large enough contour is found
             if self.area_max > 2500:
                 # Get the minimum bounding rectangle of the contour
-                self.rect = cv2.minAreaRect(self.areaMaxContour)
+                rect = cv2.minAreaRect(self.areaMaxContour)
                 box = np.int0(cv2.boxPoints(rect))
 
                 # Get the region of interest (ROI) based on the bounding box
