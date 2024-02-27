@@ -26,7 +26,7 @@ range_rgb = {
     'white': (255, 255, 255),
 }
 
-__target_color = ('blue')
+#__target_color = ('blue',)
 # 设置检测颜色
 def setTargetColor(target_color):
     global __target_color
@@ -378,7 +378,7 @@ def run(img):
 if __name__ == '__main__':
     init()
     start()
-    __target_color = ('red', )
+    __target_color = ('blue', )
     my_camera = Camera.Camera()
     my_camera.camera_open()
     while True:
