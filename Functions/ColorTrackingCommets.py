@@ -318,65 +318,86 @@ class Perception:
 
 
     #Draws the lines and Gets a color space image
-    def preprocess_image(self,img):
+    def CopyImage(self,img):
 
         # Make a copy of the input image
-        img_copy = img.copy()
-        img_h, img_w = img.shape[:2]
+        self.img_copy = img.copy()
+        self.img_h, self.img_w = img.shape[:2]
     
+    def Calibation_Lines(self):
         # Draw horizontal and vertical lines on the image
-        cv2.line(img, (0, int(img_h / 2)), (img_w, int(img_h / 2)), (0, 0, 200), 1)
-        cv2.line(img, (int(img_w / 2), 0), (int(img_w / 2), img_h), (0, 0, 200), 1)
-        
+        cv2.line(img, (0, int(self.img_h / 2)), (self.img_w, int(self.img_h / 2)), (0, 0, 200), 1)
+        cv2.line(img, (int(self.img_w / 2), 0), (int(self.img_w / 2), self.img_h), (0, 0, 200), 1)
+    
+    def Check_Running(self):
         # Check if the program is running
         if not self.__isRunning:
             return img
         
-        # Resize the image to a predefined size and apply Gaussian blur
-        frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
+    def Resize(self):
+        # Resize the image to a predefined size
+        self.frame_resize = cv2.resize(self.img_copy, size, interpolation=cv2.INTER_NEAREST)
         
-        self.frame_gb = cv2.GaussianBlur(frame_resize, (11, 11), 11)
+    def Gaussian_Blur(self):
+        #apply Gaussian blur
+        self.frame_gb = cv2.GaussianBlur(self.frame_resize, (11, 11), 11)
 
-        return self.frame_gb
     
     #Get a part of the frame and convert color
-    def Gather_Frame(self,frame_gb):
+    def Gather_Frame(self):
         # If an object is detected in a specific region of interest, continue tracking it
         if self.get_roi and self.start_pick_up:
             self.get_roi = False
-            frame_gb = getMaskROI(frame_gb, self.roi, size)    
-    
+            self.frame_gb = getMaskROI(self.frame_gb, self.roi, size)    
+    def Covert_to_LAB_Color(self):
         # Convert the image to LAB color space
-        frame_lab = cv2.cvtColor(frame_gb, cv2.COLOR_BGR2LAB)
-        
-        return frame_lab
-    
+        self.frame_lab = cv2.cvtColor(self.frame_gb, cv2.COLOR_BGR2LAB)
 
-    def Anaylize_Frame(self,frame_lab,):
+    def IterateColorRanges(self):
+        # Iterate through predefined color ranges
+        for i in color_range:
+            if i in self.__target_color:
+                detect_color = i
+                # Create a mask based on the detected color range
+                frame_mask = cv2.inRange(self.frame_lab, color_range[detect_color][0], color_range[detect_color][1])
+
+                # Perform morphological operations to remove noise
+                opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6, 6), np.uint8))
+                closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, np.ones((6, 6), np.uint8))
+
+                # Find contours in the masked image
+                contours = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]
+                
+                # Get the largest contour
+                self.areaMaxContour, self.area_max = getAreaMaxContour(contours)
+    
+    
+    def min_bounding_rec(self):
+        # Get the minimum bounding rectangle of the contour
+        self.rect = cv2.minAreaRect(self.areaMaxContour)
+        self.box = np.int0(cv2.boxPoints(self.rect))
+
+    def Perceive_Blocks(self,img):
+
+        P.CopyImage(img)
+        P.Calibation_Lines()
+        P.Check_Running()
+        P.Resize()
+        P.Gaussian_Blur()
+        P.Gather_Frame()
+        P.Covert_to_LAB_Color()
         # If not in the process of picking up an object
         if not self.start_pick_up:
+            P.IterateColorRanges()
             # Iterate through predefined color ranges
-            for i in color_range:
-                if i in self.__target_color:
-                    detect_color = i
-                    # Create a mask based on the detected color range
-                    frame_mask = cv2.inRange(frame_lab, color_range[detect_color][0], color_range[detect_color][1])
-                    # Perform morphological operations to remove noise
-                    opened = cv2.morphologyEx(frame_mask, cv2.MORPH_OPEN, np.ones((6, 6), np.uint8))
-                    closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, np.ones((6, 6), np.uint8))
-                    # Find contours in the masked image
-                    contours = cv2.findContours(closed, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)[-2]
-                    # Get the largest contour
-                    self.areaMaxContour, self.area_max = getAreaMaxContour(contours)
-            
+
             # If a large enough contour is found
             if self.area_max > 2500:
+                P.min_bounding_rec()
                 # Get the minimum bounding rectangle of the contour
-                self.rect = cv2.minAreaRect(self.areaMaxContour)
-                box = np.int0(cv2.boxPoints(self.rect))
 
                 # Get the region of interest (ROI) based on the bounding box
-                self.roi = getROI(box)
+                self.roi = getROI(self.box)
                 self.get_roi = True
 
                 # Calculate the center coordinates of the object in the image
@@ -385,8 +406,8 @@ class Perception:
                 self.world_x, self.world_y = convertCoordinate(self.img_centerx, self.img_centery, size)
                 
                 # Draw contour and center point on the image
-                cv2.drawContours(img, [box], -1, range_rgb[detect_color], 2)
-                cv2.putText(img, '(' + str(world_x) + ',' + str(world_y) + ')', (min(box[0, 0], box[2, 0]), box[2, 1] - 10),
+                cv2.drawContours(img, [self.box], -1, range_rgb[detect_color], 2)
+                cv2.putText(img, '(' + str(world_x) + ',' + str(world_y) + ')', (min(self.box[0, 0], self.box[2, 0]), self.box[2, 1] - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, range_rgb[detect_color], 1)
                 
                 # Calculate distance between current and previous coordinates
@@ -415,7 +436,9 @@ class Perception:
                         self.start_count_t1 = True
                         count = 0
                         center_list = []
+                        
         return img
+
 
 
 if __name__ == '__main__':
@@ -433,13 +456,7 @@ if __name__ == '__main__':
             frame = img.copy()
 
             #New Perception Code
-            proccessed_frame = P.preprocess_image(frame)
-            frame_lab = P.Gather_Frame(proccessed_frame)
-            Frame = P.Anaylize_Frame(frame_lab)
-
-
-
-
+            Frame = P.Perceive_Blocks(img)
 
             cv2.imshow('Frame', Frame)
             key = cv2.waitKey(1)
