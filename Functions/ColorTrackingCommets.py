@@ -320,8 +320,8 @@ class Perception:
     def preprocess_image(self,img):
 
         # Make a copy of the input image
-        self.img_copy = img.copy()
-        self.img_h, self.img_w = img.shape[:2]
+        img_copy = img.copy()
+        img_h, img_w = img.shape[:2]
     
         # Draw horizontal and vertical lines on the image
         cv2.line(img, (0, int(img_h / 2)), (img_w, int(img_h / 2)), (0, 0, 200), 1)
@@ -332,7 +332,7 @@ class Perception:
             return img
         
         # Resize the image to a predefined size and apply Gaussian blur
-        frame_resize = cv2.resize(self.img_copy, size, interpolation=cv2.INTER_NEAREST)
+        frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
         
         self.frame_gb = cv2.GaussianBlur(frame_resize, (11, 11), 11)
 
