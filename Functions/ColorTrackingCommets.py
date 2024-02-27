@@ -321,6 +321,7 @@ class Perception:
     def CopyImage(self,img):
 
         # Make a copy of the input image
+        self.img = img
         self.img_copy = img.copy()
         self.img_h, self.img_w = img.shape[:2]
     
@@ -406,8 +407,8 @@ class Perception:
                 self.world_x, self.world_y = convertCoordinate(self.img_centerx, self.img_centery, size)
                 
                 # Draw contour and center point on the image
-                cv2.drawContours(img, [self.box], -1, range_rgb[detect_color], 2)
-                cv2.putText(img, '(' + str(world_x) + ',' + str(world_y) + ')', (min(self.box[0, 0], self.box[2, 0]), self.box[2, 1] - 10),
+                cv2.drawContours(self.img, [self.box], -1, range_rgb[detect_color], 2)
+                cv2.putText(self.img, '(' + str(world_x) + ',' + str(world_y) + ')', (min(self.box[0, 0], self.box[2, 0]), self.box[2, 1] - 10),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, range_rgb[detect_color], 1)
                 
                 # Calculate distance between current and previous coordinates
@@ -437,7 +438,7 @@ class Perception:
                         count = 0
                         center_list = []
                         
-        return img
+        return self.img
 
 
 
