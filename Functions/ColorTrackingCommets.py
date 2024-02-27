@@ -435,7 +435,7 @@ if __name__ == '__main__':
             #New Perception Code
             proccessed_frame = P.preprocess_image(frame)
             frame_lab = P.Gather_Frame(proccessed_frame)
-            P.Anaylize_Frame(frame_lab)
+            Frame = P.Anaylize_Frame(frame_lab)
 
 
 
