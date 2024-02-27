@@ -26,7 +26,7 @@ range_rgb = {
     'white': (255, 255, 255),
 }
 
-__target_color = ('blue',)
+__target_color = ('blue')
 # 设置检测颜色
 def setTargetColor(target_color):
     global __target_color
