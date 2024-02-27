@@ -372,15 +372,15 @@ class Perception:
             # If a large enough contour is found
             if self.area_max > 2500:
                 # Get the minimum bounding rectangle of the contour
-                rect = cv2.minAreaRect(self.areaMaxContour)
-                box = np.int0(cv2.boxPoints(rect))
+                self.rect = cv2.minAreaRect(self.areaMaxContour)
+                box = np.int0(cv2.boxPoints(self.rect))
 
                 # Get the region of interest (ROI) based on the bounding box
                 self.roi = getROI(box)
                 self.get_roi = True
 
                 # Calculate the center coordinates of the object in the image
-                self.img_centerx, self.img_centery = getCenter(rect, roi, size, square_length)
+                self.img_centerx, self.img_centery = getCenter(self.rect, self.roi, size, square_length)
                 # Convert image coordinates to real-world coordinates
                 self.world_x, self.world_y = convertCoordinate(self.img_centerx, self.img_centery, size)
                 
@@ -404,7 +404,7 @@ class Perception:
                             self.start_count_t1 = False
                             self.t1 = time.time()
                         if time.time() - self.t1 > 1.5:
-                            self.rotation_angle = rect[2]
+                            self.rotation_angle = self.rect[2]
                             self.start_count_t1 = True
                             self.world_X, self.world_Y = np.mean(np.array(center_list).reshape(count, 2), axis=0)
                             count = 0
