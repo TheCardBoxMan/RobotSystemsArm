@@ -327,6 +327,7 @@ def run(img):
     frame_resize = cv2.resize(img_copy, size, interpolation=cv2.INTER_NEAREST)
     frame_gb = cv2.GaussianBlur(frame_resize, (11, 11), 11)
     
+    
     # If an object is detected in a specific region of interest, continue tracking it
     if get_roi and start_pick_up:
         get_roi = False
