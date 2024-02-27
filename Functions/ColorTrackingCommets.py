@@ -400,19 +400,19 @@ class Perception:
                         # Accumulate coordinates for object tracking
                         center_list.extend((world_x, world_y))
                         count += 1
-                        if start_count_t1:
-                            start_count_t1 = False
-                            t1 = time.time()
-                        if time.time() - t1 > 1.5:
+                        if self.start_count_t1:
+                            self.start_count_t1 = False
+                            self.t1 = time.time()
+                        if time.time() - self.t1 > 1.5:
                             self.rotation_angle = rect[2]
-                            start_count_t1 = True
+                            self.start_count_t1 = True
                             self.world_X, self.world_Y = np.mean(np.array(center_list).reshape(count, 2), axis=0)
                             count = 0
                             center_list = []
                             self.start_pick_up = True
                     else:
-                        t1 = time.time()
-                        start_count_t1 = True
+                        self.t1 = time.time()
+                        self.start_count_t1 = True
                         count = 0
                         center_list = []
         return img
@@ -426,7 +426,7 @@ if __name__ == '__main__':
 
     my_camera = Camera.Camera()
     my_camera.camera_open()
-    
+
     while True:
         img = my_camera.frame
         if img is not None:
