@@ -316,7 +316,7 @@ class Perception:
         self.area_max = 0
         self.areaMaxContour = 0
 
-
+        
     #Draws the lines and Gets a color space image
     def CopyImage(self,img):
 
