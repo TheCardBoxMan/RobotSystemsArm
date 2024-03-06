@@ -160,7 +160,7 @@ world_x, world_y = 0, 0
 # 机械臂移动线程
 class Motion:
         
-    def move():
+    def move(self):
         global rect
         global track
         global _stop
