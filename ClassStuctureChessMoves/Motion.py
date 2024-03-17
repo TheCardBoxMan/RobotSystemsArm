@@ -165,7 +165,28 @@ class Motion():
             z_offset += 2.5
 
         return
-    
+    def place_at_coordinate(self, x: float, y: float, z: float, z_offset: float = 0.5):
+        """Place the block at a specified coordinate"""
+
+        # Move to the top of the specified coordinate
+        self.move_to(xyz=(x, y, z + 12))
+
+        # Rotate the gripper
+        servo2_angle = self.ut.getAngle((x, y), -90)  # Assuming gripper angle is -90
+        Board.setBusServoPulse(2, servo2_angle, 500)
+        time.sleep(0.5)
+
+        # Place the block
+        place_location = (x, y, z + z_offset)
+        self.move_to(xyz=place_location, move_time=1000)
+
+        # Open the gripper
+        Board.setBusServoPulse(1, self.gripper_close - 200, 500)
+        time.sleep(0.8)
+
+        # Lift the arm up
+        self.move_to(xyz=(x, y, z + 12), move_time=800)
+
     def pick_and_place_from_chess_notation(self, from_square: str, to_square: str):
         """Pick up a box from a square and place it at another square"""
 
