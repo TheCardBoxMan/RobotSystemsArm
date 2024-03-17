@@ -112,7 +112,7 @@ class ChessManip():
                     self.to_square += unit
                     print(f"Selected Cord: {self.to_square}")
 
-                    
+
                 unit = '1'
                 if key == ord(unit):
                     self.to_square += unit
@@ -148,7 +148,7 @@ class ChessManip():
                 
                     from_square = "e4"
 
-                    self.motion.pick_and_place_from_chess_notation(from_square, to_square)
+                    self.motion.pick_and_place_from_chess_notation(from_square, self.to_square)
 
                     print("Done Motion...")
 
