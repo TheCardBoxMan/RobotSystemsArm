@@ -27,6 +27,11 @@ class Motion():
         'stack': (-15 + 1, -7 - 0.5, 1.5),
         }
 
+        self.table_xyz = {
+        'orgin': ()
+        
+        }
+
         # Parameters
         self.gripper_close = 500
 
@@ -142,6 +147,7 @@ class Motion():
 
         return
 
+
     def sort(self, locations:dict):
         """Sort the boxes"""
 
@@ -172,7 +178,7 @@ if __name__ == '__main__':
     mt = Motion()
 
     # Test parameters
-    color = 'red'
+    color = 'green'
     xy = (0.0, 20.0)
     angle = -45.0
 

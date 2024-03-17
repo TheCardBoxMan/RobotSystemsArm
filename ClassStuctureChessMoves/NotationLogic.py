@@ -30,7 +30,7 @@ def main():
             break
 
         #
-        
+
 
 
 
@@ -41,3 +41,43 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+    def pick_place_location(self, location:dict,endlocation:dict, z_offset:float=0.25):
+        """Pick the box at a specific coordinate and place it at a choosen location
+
+        Args:
+            location (dict): Dictionary with color as key and a tuple of xy and angle as value
+            endlocation: (dict): xy location defined
+        """
+
+        color = list(location.keys())[0]
+        xy = location[color][0]
+        angle = location[color][1]
+
+        #Define End Location
+
+        # Home position
+        self.home_position()
+
+        # Check if reachable
+        result = self.arm.setPitchRangeMoving((xy[0], xy[1], 5), -90, -90, 0)
+
+        if result == False:
+            print(f"Box is unreachable at {xy}")
+            # Break the function if the box is unreachable
+            return
+
+        # Move to top of the box
+        self.move_to(xyz=(xy[0], xy[1] + 0.5, 10), move_time=1000)
+
+        # Pick up the box
+        self.pick(xy, angle)
+
+        # Place the box
+        self.place(color, z_offset)
+
+        # Home position
+        self.home_position()
+
+        return
