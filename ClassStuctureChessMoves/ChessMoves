@@ -54,6 +54,8 @@ class ChessManip():
 
         self.chess_move_buffer = ''
 
+        self.to_square = ''    # Chess notation for destination square
+
     def setChessNotation(self, notation:str):
             """Set chess notation"""
             self.chess_notation = notation
@@ -90,6 +92,45 @@ class ChessManip():
                     print("Quitting...")
                     self.motion.home_position()
                     break
+                if key == ord('r'):
+                    self.to_square =''
+
+                unit = 'a'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = 'b'    
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = 'c'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = 'd'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+
+                    
+                unit = '1'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = '2'    
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = '3'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = '4'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                
+
 
                 if key == ord('\n'):  # Enter key
                     self.setChessNotation(self.chess_move_buffer)
@@ -106,7 +147,6 @@ class ChessManip():
                     print(f"Executing Chess Pickup...")
                 
                     from_square = "e4"
-                    to_square = "d5"    # Chess notation for destination square
 
                     self.motion.pick_and_place_from_chess_notation(from_square, to_square)
 
