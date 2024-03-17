@@ -1,0 +1,119 @@
+#!/usr/bin/python3
+# coding=utf8
+
+import cv2
+
+from Perception import Perception
+from Motion import Motion
+from types import SimpleNamespace
+from Utilities import Utils
+
+Modes = SimpleNamespace(
+    ONE='Pick-Place one box', # Pick and place one box
+    SORT='Sort boxes', # Sort all the boxes
+    STACK='Stack boxes' # Stack the boxes
+)
+
+manual = '''
+Color Box Manipulation
+
+Modes:
+1: Pick and Place One Box
+2: Sort All the Boxes
+3: Stack the Boxes
+
+Target Color:
+r: Red
+g: Green
+b: Blue
+
+Motion:
+c: Execute Motion
+q: Quit
+'''
+
+def show_info():
+    # Clear the screen
+    print("\033[H\033[J",end='')
+    # Print the manual
+    print(manual)
+
+class BoxManip():
+    """Class to detect color boxes and manipulate them"""
+
+    def __init__(self):
+
+        # Class instances
+        self.perception = Perception()
+        self.motion = Motion()
+
+        # Target color - only used in Modes.ONE
+        self.target_color = None
+
+        # Mode - Default is pick place one box
+        self.mode = Modes.ONE
+
+    def setMode(self, mode:str):
+        """Set mode of operation"""
+        if mode in Modes.__dict__.values():
+            self.mode = mode
+        else:
+            print(f"Invalid mode: {mode}. Defaulting to Modes.ONE")
+
+    def setTarget(self, color:str):
+        """Set target color"""
+        self.target_color = color
+
+    def run(self):
+        """Run the color box manipulation"""
+
+        show_info()
+
+        # Process image and get the color box locations
+        while True:
+            img = self.perception.camera.frame
+
+            if img is not None:
+                frame = img.copy()
+                processed, locations = self.perception.process_image(img=frame)
+
+                cv2.imshow('Processed', processed)
+                key = cv2.waitKey(1) & 0xFF
+
+                # Press 'q' to quit
+                if key == ord('q'):
+                    print("Quitting...")
+                    self.motion.home_position()
+                    break
+
+
+                # Change target color with key press
+                if key == ord('r'):
+                    self.setTarget('red')
+                    print(f"Target color set to {self.target_color}")
+                elif key == ord('g'):
+                    self.setTarget('green')
+                    print(f"Target color set to {self.target_color}")
+                elif key == ord('b'):
+                    self.setTarget('blue')
+                    print(f"Target color set to {self.target_color}")
+
+
+                # Only proceed if color boxes are detected and 'c' is pressed
+                if len(locations) > 0 and key == ord('c'):
+                    print(f"Executing motion {self.mode}...")
+                    
+                    
+
+                    print("Done Motion...")
+
+        # Close camera and destroy windows
+        self.perception.camera.camera_close()
+        cv2.destroyAllWindows()
+
+
+if __name__ == '__main__':
+
+    cb = BoxManip()
+    # Run with default mode
+    cb.run()
