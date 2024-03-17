@@ -52,10 +52,12 @@ class ChessManip():
 
         self.chess_notation = None
 
+        self.chess_move_buffer = ''
+
     def setChessNotation(self, notation:str):
             """Set chess notation"""
             self.chess_notation = notation
-            
+
     def setMode(self, mode:str):
         """Set mode of operation"""
         if mode in Modes.__dict__.values():
