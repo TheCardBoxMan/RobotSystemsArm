@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # coding=utf8
 import sys
-sys.path.append('/home/roosh/RobotSystems/arm/ArmPi/')
+sys.path.append('/home/pi/RobotSystemsArm/ClassStuctureChessMoves/')
 import cv2
 import math
 import numpy as np

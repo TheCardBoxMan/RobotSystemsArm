@@ -2,6 +2,7 @@
 # coding=utf8
 
 import cv2
+
 from Perception import Perception
 from Motion import Motion
 from types import SimpleNamespace

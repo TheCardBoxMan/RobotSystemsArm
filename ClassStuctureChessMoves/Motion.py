@@ -6,7 +6,7 @@ from Utilities import Utils
 
 # Imports from existing ArmPi code
 import sys
-sys.path.append('/home/roosh/RobotSystems/arm/ArmPi/')
+sys.path.append('/home/pi/RobotSystemsArm/ClassStuctureChessMoves/')
 from ArmIK.ArmMoveIK import ArmIK
 import HiwonderSDK.Board as Board
 
