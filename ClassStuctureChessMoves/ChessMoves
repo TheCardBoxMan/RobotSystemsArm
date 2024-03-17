@@ -111,6 +111,22 @@ class ChessManip():
                 if key == ord(unit):
                     self.to_square += unit
                     print(f"Selected Cord: {self.to_square}")
+                unit = 'e'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = 'f'    
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = 'g'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = 'h'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
 
 
                 unit = '1'
@@ -129,7 +145,22 @@ class ChessManip():
                 if key == ord(unit):
                     self.to_square += unit
                     print(f"Selected Cord: {self.to_square}")
-                
+                unit = '5'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = '6'    
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = '7'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
+                unit = '8'
+                if key == ord(unit):
+                    self.to_square += unit
+                    print(f"Selected Cord: {self.to_square}")
 
 
                 if key == ord('\n'):  # Enter key
