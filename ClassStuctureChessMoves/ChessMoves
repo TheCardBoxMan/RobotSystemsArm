@@ -38,7 +38,7 @@ def show_info():
     # Print the manual
     print(manual)
 
-class BoxManip():
+class ChessManip():
     """Class to detect color boxes and manipulate them"""
 
     def __init__(self):
@@ -87,6 +87,22 @@ class BoxManip():
                     break
 
 
+
+                # Change mode with key press
+                if key == ord('1'):
+                    # Pick and place one box
+                    self.setMode(Modes.ONE)
+                    print(f"Mode set to {self.mode}")
+                elif key == ord('2'):
+                    # Sort all the boxes
+                    self.setMode(Modes.SORT)
+                    print(f"Mode set to {self.mode}")
+                elif key == ord('3'):
+                    # Stack the boxes
+                    self.setMode(Modes.STACK)
+                    print(f"Mode set to {self.mode}")
+
+
                 # Change target color with key press
                 if key == ord('r'):
                     self.setTarget('red')
@@ -98,12 +114,29 @@ class BoxManip():
                     self.setTarget('blue')
                     print(f"Target color set to {self.target_color}")
 
-
                 # Only proceed if color boxes are detected and 'c' is pressed
                 if len(locations) > 0 and key == ord('c'):
                     print(f"Executing motion {self.mode}...")
-                    
-                    
+
+                    # For Modes.ONE pick place only the target color box
+                    if self.mode == Modes.ONE:
+                        # Default to Red if target color is not set
+                        if self.target_color is None:
+                            print("Target color not set. Defaulting to Green")
+                            self.target_color = 'green'
+
+                        # If target color is detected, pick and place it
+                        if self.target_color in locations:
+                            location = {self.target_color: locations[self.target_color]}
+                            self.motion.pick_place(location)
+
+                    # For Modes.SORT sort each detected color box one after other
+                    elif self.mode == Modes.SORT:
+                        self.motion.sort(locations)
+
+                    # For Modes.STACK stack all the detected color boxes
+                    elif self.mode == Modes.STACK:
+                        self.motion.stack(locations)
 
                     print("Done Motion...")
 
@@ -114,6 +147,6 @@ class BoxManip():
 
 if __name__ == '__main__':
 
-    cb = BoxManip()
+    cb = ChessManip()
     # Run with default mode
     cb.run()
