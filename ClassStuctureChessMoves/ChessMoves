@@ -180,6 +180,7 @@ class ChessManip():
                     from_square = "e4"
 
                     self.motion.pick_and_place_from_chess_notation(from_square, self.to_square)
+                    self.motion.home_position()
 
                     print("Done Motion...")
 
