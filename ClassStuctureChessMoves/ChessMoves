@@ -49,8 +49,8 @@ class ChessManip():
         # Target color - only used in Modes.ONE
         self.setTarget('green')
         # Mode - Default is pick place one box
-        self.mode = Modes.CHESS
-
+        
+        self.setMode(Modes.CHESS)
         self.chess_notation = None
 
     def setMode(self, mode:str):
