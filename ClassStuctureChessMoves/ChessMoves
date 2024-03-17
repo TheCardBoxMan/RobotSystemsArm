@@ -48,12 +48,14 @@ class ChessManip():
 
         # Target color - only used in Modes.ONE
         self.setTarget('green')
-        # Mode - Default is pick place one box
 
-        self.mode = Modes.CHESS
 
         self.chess_notation = None
 
+    def setChessNotation(self, notation:str):
+            """Set chess notation"""
+            self.chess_notation = notation
+            
     def setMode(self, mode:str):
         """Set mode of operation"""
         if mode in Modes.__dict__.values():
@@ -87,47 +89,24 @@ class ChessManip():
                     self.motion.home_position()
                     break
 
-                if self.mode == Modes.ONE:
-                    if key == ord('\n'):  # Enter key
-                        self.setChessNotation(self.chess_move_buffer)
-                        print(f"Chess notation set to {self.chess_notation}")
-                        self.chess_move_buffer = ''
-                    elif key == ord(' '):  # Space key
-                        self.chess_move_buffer += ' '
-                    else:
-                        self.chess_move_buffer += chr(key)
+                if key == ord('\n'):  # Enter key
+                    self.setChessNotation(self.chess_move_buffer)
+                    print(f"Chess notation set to {self.chess_notation}")
+                    self.chess_move_buffer = ''
+                elif key == ord(' '):  # Space key
+                    self.chess_move_buffer += ' '
+                else:
+                    self.chess_move_buffer += chr(key)
                 
 
                 # Only proceed if color boxes are detected and 'c' is pressed
                 if len(locations) > 0 and key == ord('w'):
-                    print(f"Executing motion {self.mode}...")
+                    print(f"Executing Chess Pickup...")
+                
+                    from_square = "e3"
+                    to_square = "c5"    # Chess notation for destination square
 
-                    # For Modes.ONE pick place only the target color box
-                    if self.mode == Modes.ONE:
-                        # Default to Red if target color is not set
-                        if self.target_color is None:
-                            print("Target color not set. Defaulting to Green")
-                            self.target_color = 'green'
-
-                        # If target color is detected, pick and place it
-                        if self.target_color in locations:
-                            location = {self.target_color: locations[self.target_color]}
-                            self.motion.pick_place(location)
-
-                    # For Modes.SORT sort each detected color box one after other
-                    elif self.mode == Modes.SORT:
-                        self.motion.sort(locations)
-
-                    # For Modes.STACK stack all the detected color boxes
-                    elif self.mode == Modes.STACK:
-                        self.motion.stack(locations)
-
-                    # For Modes.CHESS, execute chess notation motion
-                    elif self.mode == Modes.CHESS:
-                        from_square = "e3"
-                        to_square = "c5"    # Chess notation for destination square
-
-                        Motion.pick_and_place_from_chess_notation(from_square, to_square)
+                    Motion.pick_and_place_from_chess_notation(from_square, to_square)
 
                     print("Done Motion...")
 
