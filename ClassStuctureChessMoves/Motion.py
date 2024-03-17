@@ -2,7 +2,7 @@
 # coding=utf8
 
 import time
-from Ultils import Utils
+from Utilities import Utils
 
 # Imports from existing ArmPi code
 import sys

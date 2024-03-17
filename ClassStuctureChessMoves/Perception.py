@@ -6,7 +6,7 @@ import cv2
 import math
 import numpy as np
 from Camera import Camera
-from utils import Utils
+from Utilities import Utils
 
 class Perception():
     """Perception class to detect objects and return their coordinates and angles"""

@@ -5,7 +5,7 @@ import cv2
 from Perception import Perception
 from Motion import Motion
 from types import SimpleNamespace
-from Utils import Utils
+from Utilities import Utils
 
 Modes = SimpleNamespace(
     ONE='Pick-Place one box', # Pick and place one box
