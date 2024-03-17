@@ -25,11 +25,7 @@ class Motion():
         'green': (-15 + 0.5, 6 - 0.5,  1.5),
         'blue':  (-15 + 0.5, 0 - 0.5,  1.5),
         'stack': (-15 + 1, -7 - 0.5, 1.5),
-        }
-
-        self.table_xyz = {
-        'orgin': ()
-        
+        'orgin': (0,0,1.5)
         }
 
         # Parameters
@@ -145,8 +141,7 @@ class Motion():
         # Home position
         self.home_position()
 
-        return
-
+        return 
 
     def sort(self, locations:dict):
         """Sort the boxes"""
@@ -170,6 +165,48 @@ class Motion():
             z_offset += 2.5
 
         return
+    
+    def pick_and_place_from_chess_notation(self, from_square: str, to_square: str):
+        """Pick up a box from a square and place it at another square"""
+
+        # Convert chess notation to Cartesian coordinates
+        from_coord = self.convert_chess_to_cartesian(from_square)
+        to_coord = self.convert_chess_to_cartesian(to_square)
+
+        if from_coord is None or to_coord is None:
+            print("Invalid chess notation.")
+            return
+
+        # Pick up the box from the source square
+        self.pick(from_coord, angle=0)  # Assuming angle to pick up is 0 degrees
+
+        # Place the box at the destination square
+        self.place_at_coordinate(to_coord[0], to_coord[1], 1.5)  # Adjust the height as needed
+
+    def convert_chess_to_cartesian(self, square: str):
+        """Convert chess notation to Cartesian coordinates"""
+
+        # Define the mapping from chess notation to Cartesian coordinates
+        chess_to_cartesian = {
+            'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7
+        }
+
+        if len(square) != 2:
+            print("Invalid chess notation.")
+            return None
+
+        file, rank = square[0], square[1]
+
+        if file not in chess_to_cartesian or not rank.isdigit():
+            print("Invalid chess notation.")
+            return None
+
+        x = chess_to_cartesian[file]
+        y = int(rank) - 1  # Subtract 1 since indexing starts from 0 in Cartesian coordinates
+
+        return x, y
+
+
 
 
 if __name__ == '__main__':
@@ -178,7 +215,7 @@ if __name__ == '__main__':
     mt = Motion()
 
     # Test parameters
-    color = 'green'
+    color = 'origin'
     xy = (0.0, 20.0)
     angle = -45.0
 

@@ -26,9 +26,9 @@ b: Blue
 (A-H): Lateral Movement
 (1-8): Vertical Movement
 
-3. The Arm Will Move The Box to The Coordinate
+3. The rm will move the box to the Coordinate
 
-4. Or Chose (w) to move arm above all board spaces
+3. Or Chose (w) to move arm above all board spaces
 '''
 
 def show_info():
@@ -47,10 +47,11 @@ class ChessManip():
         self.motion = Motion()
 
         # Target color - only used in Modes.ONE
-        self.target_color = None
-
+        self.setTarget('green')
         # Mode - Default is pick place one box
-        self.mode = Modes.ONE
+        self.mode = Modes.CHESS
+
+        self.chess_notation = None
 
     def setMode(self, mode:str):
         """Set mode of operation"""
@@ -85,36 +86,19 @@ class ChessManip():
                     self.motion.home_position()
                     break
 
-
-
-                # Change mode with key press
-                if key == ord('1'):
-                    # Pick and place one box
-                    self.setMode(Modes.ONE)
-                    print(f"Mode set to {self.mode}")
-                elif key == ord('2'):
-                    # Sort all the boxes
-                    self.setMode(Modes.SORT)
-                    print(f"Mode set to {self.mode}")
-                elif key == ord('3'):
-                    # Stack the boxes
-                    self.setMode(Modes.STACK)
-                    print(f"Mode set to {self.mode}")
-
-
-                # Change target color with key press
-                if key == ord('r'):
-                    self.setTarget('red')
-                    print(f"Target color set to {self.target_color}")
-                elif key == ord('g'):
-                    self.setTarget('green')
-                    print(f"Target color set to {self.target_color}")
-                elif key == ord('b'):
-                    self.setTarget('blue')
-                    print(f"Target color set to {self.target_color}")
+                if self.mode == Modes.CHESS:
+                    if key == ord('\n'):  # Enter key
+                        self.setChessNotation(self.chess_move_buffer)
+                        print(f"Chess notation set to {self.chess_notation}")
+                        self.chess_move_buffer = ''
+                    elif key == ord(' '):  # Space key
+                        self.chess_move_buffer += ' '
+                    else:
+                        self.chess_move_buffer += chr(key)
+                
 
                 # Only proceed if color boxes are detected and 'c' is pressed
-                if len(locations) > 0 and key == ord('c'):
+                if len(locations) > 0 and key == ord('w'):
                     print(f"Executing motion {self.mode}...")
 
                     # For Modes.ONE pick place only the target color box
@@ -137,6 +121,9 @@ class ChessManip():
                     elif self.mode == Modes.STACK:
                         self.motion.stack(locations)
 
+                    # For Modes.CHESS, execute chess notation motion
+                    elif self.mode == Modes.CHESS:
+                        self.motion.pick_and_place_from_chess_notation(location,self.chess_notation)
                     print("Done Motion...")
 
         # Close camera and destroy windows
