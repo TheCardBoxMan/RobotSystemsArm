@@ -222,8 +222,8 @@ class Motion():
             print("Invalid chess notation.")
             return None
 
-        x = chess_to_cartesian[file] -4
-        y = int(rank) - 1  + 17 # Subtract 1 since indexing starts from 0 in Cartesian coordinates
+        x = (chess_to_cartesian[file] -4) *3
+        y = (int(rank) - 1  + 17)*3 # Subtract 1 since indexing starts from 0 in Cartesian coordinates
 
         return x, y
 
