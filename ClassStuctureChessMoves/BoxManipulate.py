@@ -19,7 +19,7 @@ Color Box Manipulation
 
 Modes:
 1: Pick and Place One Box
-2: Sort All the Boxes
+2: Move Between All Notation
 3: Stack the Boxes
 
 Target Color:

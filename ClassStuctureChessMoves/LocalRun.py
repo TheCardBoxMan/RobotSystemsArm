@@ -22,10 +22,19 @@ def main():
         # Display the captured frame
         cv2.imshow('Video', frame)
 
-        # Check for the 'q' key press to exit the loop
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+        # Check for key press
+        key = cv2.waitKey(1) & 0xFF
 
+        # If 'q' key is pressed, quit the program
+        if key == ord('q'):
+            break
+        
+        # If left mouse button is clicked, print chess notation of coordinates
+        if cv2.getWindowProperty('Video', cv2.WND_PROP_VISIBLE) >= 1 and cv2.getWindowProperty('Video', cv2.WND_PROP_AUTOSIZE) >= 1:
+            if cv2.waitKey(1) == ord('c'):
+                x, y = cv2.waitKey(0) & 0xFF, cv2.waitKey(0) & 0xFF
+                print(f"Chess Notation: {chr(ord('a') + x // 64)}{8 - y // 64}")
+    
     # Release the video capture object and close OpenCV windows
     cap.release()
     cv2.destroyAllWindows()

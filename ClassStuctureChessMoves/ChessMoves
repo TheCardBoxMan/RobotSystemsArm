@@ -15,21 +15,20 @@ Modes = SimpleNamespace(
 )
 
 manual = '''
-Color Box Manipulation
+Chess Box Movement
 
-Modes:
-1: Pick and Place One Box
-2: Sort All the Boxes
-3: Stack the Boxes
-
-Target Color:
+1. Select the color of your piece:
 r: Red
 g: Green
 b: Blue
 
-Motion:
-c: Execute Motion
-q: Quit
+2. Select the Chess Coordinate 
+(A-H): Lateral Movement
+(1-8): Vertical Movement
+
+3. The Arm Will Move The Box to The Coordinate
+
+4. Or Chose (w) to move arm above all board spaces
 '''
 
 def show_info():
