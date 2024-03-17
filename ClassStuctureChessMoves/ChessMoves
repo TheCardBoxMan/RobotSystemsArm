@@ -134,7 +134,6 @@ class ChessManip():
         self.perception.camera.camera_close()
         cv2.destroyAllWindows()
 
-
 if __name__ == '__main__':
 
     cb = ChessManip()
