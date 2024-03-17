@@ -2,6 +2,9 @@
 # coding=utf8
 import sys
 sys.path.append('/home/pi/RobotSystemsArm/ClassStuctureChessMoves/')
+sys.path.append('/home/pi/RobotSystemsArm/')
+
+
 import cv2
 import math
 import numpy as np
