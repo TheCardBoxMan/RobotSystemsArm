@@ -123,7 +123,11 @@ class ChessManip():
 
                     # For Modes.CHESS, execute chess notation motion
                     elif self.mode == Modes.CHESS:
-                        self.motion.pick_and_place_from_chess_notation(location,self.chess_notation)
+                        from_square = "e3"
+                        to_square = "c5"    # Chess notation for destination square
+
+                        Motion.pick_and_place_from_chess_notation(from_square, to_square)
+
                     print("Done Motion...")
 
         # Close camera and destroy windows
