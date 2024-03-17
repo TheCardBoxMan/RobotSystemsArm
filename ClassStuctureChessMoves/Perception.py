@@ -8,7 +8,7 @@ sys.path.append('/home/pi/RobotSystemsArm/')
 import cv2
 import math
 import numpy as np
-import Camera
+from Camera import Camera
 from Utilities import Utils
 
 class Perception():
