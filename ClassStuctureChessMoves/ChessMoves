@@ -49,8 +49,9 @@ class ChessManip():
         # Target color - only used in Modes.ONE
         self.setTarget('green')
         # Mode - Default is pick place one box
-        
-        self.setMode(Modes.CHESS)
+
+        self.mode = Modes.CHESS
+
         self.chess_notation = None
 
     def setMode(self, mode:str):
@@ -86,7 +87,7 @@ class ChessManip():
                     self.motion.home_position()
                     break
 
-                if self.mode == Modes.CHESS:
+                if self.mode == Modes.ONE:
                     if key == ord('\n'):  # Enter key
                         self.setChessNotation(self.chess_move_buffer)
                         print(f"Chess notation set to {self.chess_notation}")
