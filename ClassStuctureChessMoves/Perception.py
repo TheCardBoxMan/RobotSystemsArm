@@ -5,7 +5,7 @@ sys.path.append('/home/roosh/RobotSystems/arm/ArmPi/')
 import cv2
 import math
 import numpy as np
-from Camera import Camera
+import Camera
 from Utilities import Utils
 
 class Perception():
