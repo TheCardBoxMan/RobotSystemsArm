@@ -237,7 +237,6 @@ class ChessManip():
 
                     self.from_square = split_notation[0]
                     self.to_square = split_notation[1]
-                    print(locations['red'])
                     self.motion.pick_and_place_from_chess_notation(self.from_square, self.to_square)
 
                     self.motion.home_position()

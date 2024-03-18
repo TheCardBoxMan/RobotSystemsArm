@@ -144,6 +144,9 @@ class Motion():
         from_coord = self.convert_chess_to_cartesian(from_square)
         to_coord = self.convert_chess_to_cartesian(to_square)
 
+        print("picking from: ",from_coord)
+        print("Putting to: " ,to_coord)
+
         if from_coord is None or to_coord is None:
             print("Invalid chess notation.")
             return
