@@ -106,65 +106,8 @@ class Motion():
 
         # Lift the arm up
         self.move_to(xyz=(self.block_xyz[color][0], self.block_xyz[color][1], 12), move_time=800)
+ 
 
-    def pick_place(self, location:dict, z_offset:float=0.25):
-        """Pick the box at a specific coordinate and place it at the home coordinates defined by the color
-
-        Args:
-            location (dict): Dictionary with color as key and a tuple of xy and angle as value
-        """
-
-        color = list(location.keys())[0]
-        xy = location[color][0]
-        angle = location[color][1]
-
-        # Home position
-        self.home_position()
-
-        # Check if reachable
-        result = self.arm.setPitchRangeMoving((xy[0], xy[1], 5), -90, -90, 0)
-
-        if result == False:
-            print(f"Box is unreachable at {xy}")
-            # Break the function if the box is unreachable
-            return
-
-        # Move to top of the box
-        self.move_to(xyz=(xy[0], xy[1] + 0.5, 10), move_time=1000)
-
-        # Pick up the box
-        self.pick(xy, angle)
-
-        # Place the box
-        self.place(color, z_offset)
-
-        # Home position
-        self.home_position()
-
-        return 
-
-    def sort(self, locations:dict):
-        """Sort the boxes"""
-
-        # Pick and place each box
-        for color in locations.keys():
-            location = {color: locations[color]}
-            self.pick_place(location)
-
-        return
-
-    def stack(self, locations:dict):
-        """Stack the boxes"""
-
-        z_offset = 0.25
-
-        # Pick and place each box with increasing z_offset
-        for color in locations.keys():
-            location = {'stack': locations[color]}
-            self.pick_place(location, z_offset)
-            z_offset += 2.5
-
-        return
     def place_at_coordinate(self, x: float, y: float, z: float, z_offset: float = 0.5):
         """Place the block at a specified coordinate"""
 
@@ -235,8 +178,6 @@ class Motion():
         #7.11 x and 18 y is e3
         #
         return x, y
-
-
 
 
 if __name__ == '__main__':
