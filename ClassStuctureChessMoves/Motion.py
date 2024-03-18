@@ -42,6 +42,11 @@ class Motion():
         self.FileScale = 4.75
         self.FileOffset = 3.75
 
+        # Define the mapping from chess notation to Cartesian coordinates
+        self.chess_to_cartesian = {
+            'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8
+        }
+
     def home_position(self):
         """Move the arm to the home position"""
 
