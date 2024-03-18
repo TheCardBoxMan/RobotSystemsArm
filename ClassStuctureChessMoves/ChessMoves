@@ -230,9 +230,10 @@ class ChessManip():
 
 
                 # Only proceed if color boxes are detected and 'w' is pressed
-                if len(locations) > 0 and key == ord('w'):
+                if len(locations) > 0 and key == ord('w') and len(self.notation) == 5:
+                    
                     print(f"Executing Chess Pickup...")
-
+                    
                     split_notation = self.notation.split(' ')
 
                     self.from_square = split_notation[0]
@@ -240,6 +241,7 @@ class ChessManip():
                     self.motion.pick_and_place_from_chess_notation(self.from_square, self.to_square)
 
                     self.motion.home_position()
+
 
                     print("Done Motion...")
 
