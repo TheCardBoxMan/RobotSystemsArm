@@ -175,7 +175,7 @@ class ChessManip():
                     file, rank = self.motion.chess_to_cartesian[boardsquare[0]], boardsquare[1]
                     print(file)
                     print(rank)
-                    
+
                     boardx, boardy = self.motion.convert_chess_to_cartesian(boardsquare)
                     print(boardx)
                     print(boardy)
@@ -187,9 +187,9 @@ class ChessManip():
                     print(valuey)
 
                      
-                    self.motion.RankOffset = 
+                    print('new rank offset is: ',self.motion.RankOffset)
                     
-                    self.motion.FileOffset =
+                    print('new file offset is: ',self.motion.FileOffset)
 
 
 

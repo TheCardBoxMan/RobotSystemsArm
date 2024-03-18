@@ -167,7 +167,7 @@ class Motion():
 
         file, rank = square[0], square[1]
 
-        if file not in chess_to_cartesian or not rank.isdigit():
+        if file not in self.chess_to_cartesian or not rank.isdigit():
             print("Invalid chess notation.")
             return None
 
