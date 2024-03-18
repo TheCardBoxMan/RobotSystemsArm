@@ -183,33 +183,33 @@ class ChessManip():
                         'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8
                     }
 
-                    file1= self.chess_to_cartesian[boardsquare[0]]
-                    rank1 = boardsquare[1]
+                    file1= float(self.chess_to_cartesian[boardsquare[0]])
+                    rank1 = float(boardsquare[1])
                     print(file1)
                     print(rank1)
 
-                    file2= self.chess_to_cartesian[bluepiecesquare[0]]
-                    rank2 = bluepiecesquare[1]
+                    file2= float(self.chess_to_cartesian[bluepiecesquare[0]])
+                    rank2 = float(bluepiecesquare[1])
                     print(file2)
                     print(rank2)
 
                     redlocation = locations['red']
-                    valuex1 = redlocation[0][0]  # Accessing the first element of the first tuple
-                    valuey1 = redlocation[0][1]  # Accessing the second element of the first tuple
+                    valuex1 = float(redlocation[0][0])  # Accessing the first element of the first tuple
+                    valuey1 = float(redlocation[0][1])  # Accessing the second element of the first tuple
                     print(valuex1)
                     print(valuey1)
 
                     bluelocation = locations['blue']
-                    valuex2 = bluelocation[0][0]  # Accessing the first element of the first tuple
-                    valuey2 = bluelocation[0][1]  # Accessing the second element of the first tuple
+                    valuex2 = float(bluelocation[0][0])  # Accessing the first element of the first tuple
+                    valuey2 = float(bluelocation[0][1])  # Accessing the second element of the first tuple
                     print(valuex2)
                     print(valuey2)
 
-                    self.motion.RankScale = (int(valuex2) - int(valuex1))/(int(rank2) - int(rank1))
-                    self.motion.FileScale = (int(valuey2) - int(valuey1))/(int(file2) - int(file1))
+                    self.motion.RankScale = ((valuex2) - (valuex1))/((rank2) - (rank1))
+                    self.motion.FileScale = ((valuey2) - (valuey1))/((file2) - (file1))
 
-                    self.motion.RankOffset = int(valuex1) - int(rank1)(self.motion.RankScale)
-                    self.motion.FileOffset = int(valuey1) - int(file1)(self.motion.FileScale)
+                    self.motion.RankOffset = (valuex1) - (rank1)(self.motion.RankScale)
+                    self.motion.FileOffset = (valuey1) - (file1)(self.motion.FileScale)
                     
                     print('new rank scale is: ',self.motion.RankScale)
                     print('new rank offset is: ',self.motion.RankOffset)
