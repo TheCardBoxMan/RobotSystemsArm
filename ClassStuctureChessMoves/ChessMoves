@@ -167,6 +167,21 @@ class ChessManip():
                     self.notation += unit
                     print(f"Selected Cord: {self.notation}")
                 
+                #CalibrateBoard
+                unit = 'z'
+                if key == ord(unit):
+                    boardsquare = input('Chose the board square that the program detects: ')
+                    boardx, boardy = self.motion.convert_chess_to_cartesian(boardsquare)
+                    print(boardx)
+                    print(boardy)
+
+                    redlocation = locations['red']
+                    valuex = redlocation[0][0]  # Accessing the first element of the first tuple
+                    valuey = redlocation[0][1]  # Accessing the second element of the first tuple
+                    print(valuex)
+                    print(valuey)
+
+
 
                 # Only proceed if color boxes are detected and 'w' is pressed
                 if len(locations) > 0 and key == ord('w'):
