@@ -37,10 +37,11 @@ class Motion():
         # Home position
         self.home_position()
 
-        self.RankScale = 4.51
-        self.RankOffset = -15.44
-        self.FileScale = 4.75
-        self.FileOffset = 3.75
+        self.RankScale = 4.49
+        self.RankOffset = -15.4
+        self.FileScale = 4.8
+        self.FileOffset = 3.55
+
 
 
     def home_position(self):
