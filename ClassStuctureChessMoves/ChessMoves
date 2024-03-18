@@ -17,18 +17,21 @@ Modes = SimpleNamespace(
 manual = '''
 Chess Box Movement
 
-1. Select the color of your piece:
-r: Red
-g: Green
-b: Blue
-
-2. Select the Chess Coordinate 
-(A-H): Lateral Movement
+Select the Two Chess Coordinate With a Space Inbetween When Selecting The Screen
+(a-h): Lateral Movement
 (1-8): Vertical Movement
 
-3. The rm will move the box to the Coordinate
+Examples:
+e4 d6
+g8 a2
+b1 e7
 
-3. Or Chose (w) to move arm above all board spaces
+'w' will move the box from the selected chess positions
+
+'z' will calibrate the offset and scale of the board with the seen blue piece and red square
+
+
+
 '''
 
 def show_info():
@@ -170,31 +173,54 @@ class ChessManip():
                 #CalibrateBoard
                 unit = 'z'
                 if key == ord(unit):
+
                     boardsquare = input('Chose the board square that the program detects: ')
+                    bluepiecesquare =input('Chose the square that the blue piece is on that the program detects: ')
+
+
                     # Define the mapping from chess notation to Cartesian coordinates
                     self.chess_to_cartesian = {
                         'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8
                     }
 
-                    file= self.chess_to_cartesian[boardsquare[0]]
-                    rank = boardsquare[1]
-                    print(file)
-                    print(rank)
+                    file1= self.chess_to_cartesian[boardsquare[0]]
+                    rank1 = boardsquare[1]
+                    print(file1)
+                    print(rank1)
 
-                    boardx, boardy = self.motion.convert_chess_to_cartesian(boardsquare)
-                    print(boardx)
-                    print(boardy)
+                    file2= self.chess_to_cartesian[bluepiecesquare[0]]
+                    rank2 = bluepiecesquare[1]
+                    print(file2)
+                    print(rank2)
 
                     redlocation = locations['red']
-                    valuex = redlocation[0][0]  # Accessing the first element of the first tuple
-                    valuey = redlocation[0][1]  # Accessing the second element of the first tuple
-                    print(valuex)
-                    print(valuey)
+                    valuex1 = redlocation[0][0]  # Accessing the first element of the first tuple
+                    valuey1 = redlocation[0][1]  # Accessing the second element of the first tuple
+                    print(valuex1)
+                    print(valuey1)
 
-                     
-                    print('new rank offset is: ',self.motion.RankOffset)
+                    bluelocation = locations['blue']
+                    valuex2 = bluelocation[0][0]  # Accessing the first element of the first tuple
+                    valuey2 = bluelocation[0][1]  # Accessing the second element of the first tuple
+                    print(valuex2)
+                    print(valuey2)
+
+                    self.motion.RankScale = (valuex2 - valuex1)/(rank2 - rank1)
+                    self.motion.FileScale = (valuey2 - valuey1)/(file2 - file1)
+
+                    self.motion.RankOffset = valuex1 - rank1(self.motion.RankScale)
+                    self.motion.FileOffset = valuey1 - file1(self.motion.FileScale)
                     
+                    print('new rank scale is: ',self.motion.RankScale)
+                    print('new rank offset is: ',self.motion.RankOffset)
+
+                    print('new file scale is: ',self.motion.FileScale)
                     print('new file offset is: ',self.motion.FileOffset)
+
+                    boardx, boardy = self.motion.convert_chess_to_cartesian(boardsquare)
+                    print('does the position x match? ',boardx, ' to ',valuex1)
+                    print('does the position y match? ',boardy, ' to ',valuey1)
+                    
 
 
 
