@@ -98,74 +98,74 @@ class ChessManip():
                 unit = 'a'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = 'b'    
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = 'c'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = 'd'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = 'e'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = 'f'    
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = 'g'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = 'h'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
 
 
                 unit = '1'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = '2'    
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = '3'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = '4'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = '5'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = '6'    
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = '7'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 unit = '8'
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
 
                 unit = ' '
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.to_square}")
+                    print(f"Selected Cord: {self.notation}")
                 
 
                 # Only proceed if color boxes are detected and 'w' is pressed
@@ -178,7 +178,7 @@ class ChessManip():
                     self.to_square = split_notation[1]
 
                     self.motion.pick_and_place_from_chess_notation(self.from_square, self.to_square)
-                    
+
                     self.motion.home_position()
 
                     print("Done Motion...")
