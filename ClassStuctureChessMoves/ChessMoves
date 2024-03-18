@@ -208,12 +208,12 @@ class ChessManip():
                     boardx, boardy = self.motion.convert_chess_to_cartesian(boardsquare)
                     print('does the position x match? ',boardx, ' to ',valuex1)
                     print('does the position y match? ',boardy, ' to ',valuey1)
-                    
+
                     self.motion.RankScale = round(-1 * (valuex2 - valuex1) / (rank2 - rank1), 2)
                     self.motion.FileScale = round(-1 * (valuey2 - valuey1) / (file2 - file1),2)
 
-                    self.motion.RankOffset = round(valuex1 - rank1 * float(self.motion.RankScale),2)
-                    self.motion.FileOffset = round(valuey1 - file1 * float(self.motion.FileScale),2)
+                    self.motion.RankOffset = round(valuex1 - (rank1 * self.motion.RankScale),2)
+                    self.motion.FileOffset = round(valuey1 - (file1 * self.motion.FileScale),2)
                     
                     print('new rank scale is: ',self.motion.RankScale)
                     print('new rank offset is: ',self.motion.RankOffset)
