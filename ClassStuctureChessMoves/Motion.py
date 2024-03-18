@@ -207,9 +207,14 @@ class Motion():
     def convert_chess_to_cartesian(self, square: str):
         """Convert chess notation to Cartesian coordinates"""
 
+        self.RankScale = 4.51
+        self.RankOffset = -15.44
+        self.FileScale = 4.51
+        self.FileOffset = 3.75
+
         # Define the mapping from chess notation to Cartesian coordinates
         chess_to_cartesian = {
-            'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7
+            'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8
         }
 
         if len(square) != 2:
@@ -222,9 +227,13 @@ class Motion():
             print("Invalid chess notation.")
             return None
 
-        x = (chess_to_cartesian[file] -4) *2
-        y = (int(rank) - 1)*2  + 17 # Subtract 1 since indexing starts from 0 in Cartesian coordinates
+        x = (chess_to_cartesian[file] ) * self.FileScale + self.FileOffset
+        y = (int(rank)) * self.RankScale + self.RankOffset
+             
 
+        #2.6 x and 22.75 is d4
+        #7.11 x and 18 y is e3
+        #
         return x, y
 
 
