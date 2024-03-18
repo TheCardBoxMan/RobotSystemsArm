@@ -54,7 +54,7 @@ class ChessManip():
 
         self.chess_move_buffer = ''
 
-        self.to_square = ''    # Chess notation for destination square
+        self.notation = ''    # Chess notation for destination square
 
     def setChessNotation(self, notation:str):
             """Set chess notation"""
@@ -93,93 +93,92 @@ class ChessManip():
                     self.motion.home_position()
                     break
                 if key == ord('r'):
-                    self.to_square =''
+                    self.notation =''
 
                 unit = 'a'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = 'b'    
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = 'c'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = 'd'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = 'e'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = 'f'    
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = 'g'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = 'h'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
 
 
                 unit = '1'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = '2'    
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = '3'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = '4'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = '5'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = '6'    
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = '7'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
                 unit = '8'
                 if key == ord(unit):
-                    self.to_square += unit
+                    self.notation += unit
                     print(f"Selected Cord: {self.to_square}")
 
-
-                if key == ord('\n'):  # Enter key
-                    self.setChessNotation(self.chess_move_buffer)
-                    print(f"Chess notation set to {self.chess_notation}")
-                    self.chess_move_buffer = ''
-                elif key == ord(' '):  # Space key
-                    self.chess_move_buffer += ' '
-                else:
-                    self.chess_move_buffer += chr(key)
+                unit = ' '
+                if key == ord(unit):
+                    self.notation += unit
+                    print(f"Selected Cord: {self.to_square}")
                 
 
-                # Only proceed if color boxes are detected and 'c' is pressed
+                # Only proceed if color boxes are detected and 'w' is pressed
                 if len(locations) > 0 and key == ord('w'):
                     print(f"Executing Chess Pickup...")
-                
-                    from_square = "e4"
 
-                    self.motion.pick_and_place_from_chess_notation(from_square, self.to_square)
+                    split_notation = self.notation.split(' ')
+
+                    self.from_square = split_notation[0]
+                    self.to_square = split_notation[1]
+
+                    self.motion.pick_and_place_from_chess_notation(self.from_square, self.to_square)
+                    
                     self.motion.home_position()
 
                     print("Done Motion...")
