@@ -208,8 +208,8 @@ class ChessManip():
                     self.motion.RankScale = ((valuex2) - (valuex1))/((rank2) - (rank1))
                     self.motion.FileScale = ((valuey2) - (valuey1))/((file2) - (file1))
 
-                    self.motion.RankOffset = (valuex1) - (rank1)(self.motion.RankScale)
-                    self.motion.FileOffset = (valuey1) - (file1)(self.motion.FileScale)
+                    self.motion.RankOffset = valuex1 - rank1 * self.motion.RankScale
+                    self.motion.FileOffset = valuey1 - file1 * self.motion.FileScale
                     
                     print('new rank scale is: ',self.motion.RankScale)
                     print('new rank offset is: ',self.motion.RankOffset)
