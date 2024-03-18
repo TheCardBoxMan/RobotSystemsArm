@@ -8,11 +8,7 @@ from Motion import Motion
 from types import SimpleNamespace
 from Utilities import Utils
 
-Modes = SimpleNamespace(
-    ONE='Pick-Place one box', # Pick and place one box
-    SORT='Sort boxes', # Sort all the boxes
-    STACK='Stack boxes' # Stack the boxes
-)
+
 
 manual = '''
 Chess Box Movement
@@ -31,7 +27,6 @@ b1 e7
 'z' will calibrate the offset and scale of the board with the seen blue piece and red square
 
 
-
 '''
 
 def show_info():
@@ -41,7 +36,6 @@ def show_info():
     print(manual)
 
 class ChessManip():
-    """Class to detect color boxes and manipulate them"""
 
     def __init__(self):
 
@@ -75,7 +69,6 @@ class ChessManip():
         self.target_color = color
 
     def run(self):
-        """Run the color box manipulation"""
 
         show_info()
 
@@ -92,7 +85,7 @@ class ChessManip():
 
                 # Press 'q' to quit
                 if key == ord('q'):
-                    print("Quitting...")
+                    print("Exit Program")
                     self.motion.home_position()
                     break
                 if key == ord('r'):
@@ -246,7 +239,7 @@ class ChessManip():
                     self.motion.home_position()
 
 
-                    print("Done Motion...")
+                    print("Finished...")
 
         # Close camera and destroy windows
         self.perception.camera.camera_close()
