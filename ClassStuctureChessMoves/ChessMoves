@@ -97,6 +97,7 @@ class ChessManip():
                     break
                 if key == ord('r'):
                     self.notation =''
+                    print('reset selection.')
 
                 unit = 'a'
                 if key == ord(unit):
@@ -168,7 +169,7 @@ class ChessManip():
                 unit = ' '
                 if key == ord(unit):
                     self.notation += unit
-                    print(f"Selected Cord: {self.notation}")
+                    print("Selecting Next Space. ")
                 
                 #CalibrateBoard
                 unit = 'z'
