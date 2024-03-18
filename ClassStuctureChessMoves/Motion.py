@@ -227,8 +227,8 @@ class Motion():
             print("Invalid chess notation.")
             return None
 
-        x = (chess_to_cartesian[file] ) * self.FileScale + self.FileOffset
-        y = (int(rank)) * self.RankScale + self.RankOffset
+        x = (chess_to_cartesian[file] ) * self.RankScale + self.RankOffset
+        y = (int(rank)) * self.FileScale + self.FileOffset
              
 
         #2.6 x and 22.75 is d4
