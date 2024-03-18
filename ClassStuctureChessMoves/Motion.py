@@ -157,7 +157,7 @@ class Motion():
 
 
         # Define the mapping from chess notation to Cartesian coordinates
-        chess_to_cartesian = {
+        self.chess_to_cartesian = {
             'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8
         }
 
@@ -171,7 +171,7 @@ class Motion():
             print("Invalid chess notation.")
             return None
 
-        x = (chess_to_cartesian[file]-1 ) * self.RankScale + self.RankOffset
+        x = (self.chess_to_cartesian[file]-1 ) * self.RankScale + self.RankOffset
         y = (int(rank)-1) * self.FileScale + self.FileOffset
              
 

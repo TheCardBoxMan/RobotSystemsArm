@@ -171,6 +171,11 @@ class ChessManip():
                 unit = 'z'
                 if key == ord(unit):
                     boardsquare = input('Chose the board square that the program detects: ')
+
+                    file, rank = self.motion.chess_to_cartesian[boardsquare[0]], boardsquare[1]
+                    print(file)
+                    print(rank)
+                    
                     boardx, boardy = self.motion.convert_chess_to_cartesian(boardsquare)
                     print(boardx)
                     print(boardy)
@@ -180,6 +185,11 @@ class ChessManip():
                     valuey = redlocation[0][1]  # Accessing the second element of the first tuple
                     print(valuex)
                     print(valuey)
+
+                     
+                    self.motion.RankOffset = 
+                    
+                    self.motion.FileOffset =
 
 
 
