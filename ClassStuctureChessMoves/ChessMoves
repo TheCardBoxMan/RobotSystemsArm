@@ -171,8 +171,13 @@ class ChessManip():
                 unit = 'z'
                 if key == ord(unit):
                     boardsquare = input('Chose the board square that the program detects: ')
+                    # Define the mapping from chess notation to Cartesian coordinates
+                    self.chess_to_cartesian = {
+                        'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5, 'f': 6, 'g': 7, 'h': 8
+                    }
 
-                    file, rank = self.motion.chess_to_cartesian[boardsquare[0]], boardsquare[1]
+                    file= self.chess_to_cartesian[boardsquare[0]]
+                    rank = boardsquare[1]
                     print(file)
                     print(rank)
 
