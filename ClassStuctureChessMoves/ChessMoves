@@ -99,6 +99,9 @@ class ChessManip():
                     self.notation =''
                     print('reset selection.')
 
+                if key == ord('i'):
+                    show_info()
+
                 unit = 'a'
                 if key == ord(unit):
                     self.notation += unit
@@ -186,29 +189,29 @@ class ChessManip():
 
                     rank1= float(self.chess_to_cartesian[boardsquare[0]])
                     file1 = float(boardsquare[1])
-                    print(rank1)
-                    print(file1)
+                    #print(rank1)
+                    #print(file1)
 
                     rank2= float(self.chess_to_cartesian[bluepiecesquare[0]])
                     file2 = float(bluepiecesquare[1])
-                    print(rank2)
-                    print(file2)
+                    #print(rank2)
+                    #print(file2)
 
                     redlocation = locations['red']
                     valuex1 = float(redlocation[0][0])  # Accessing the first element of the first tuple
                     valuey1 = float(redlocation[0][1])  # Accessing the second element of the first tuple
-                    print(valuex1)
-                    print(valuey1)
+                    #print(valuex1)
+                    #print(valuey1)
 
                     bluelocation = locations['blue']
                     valuex2 = float(bluelocation[0][0])  # Accessing the first element of the first tuple
                     valuey2 = float(bluelocation[0][1])  # Accessing the second element of the first tuple
-                    print(valuex2)
-                    print(valuey2)
+                    #print(valuex2)
+                    #print(valuey2)
 
-                    boardx, boardy = self.motion.convert_chess_to_cartesian(boardsquare)
-                    print('does the position x match? ',boardx, ' to ',valuex1)
-                    print('does the position y match? ',boardy, ' to ',valuey1)
+                    #boardx, boardy = self.motion.convert_chess_to_cartesian(boardsquare)
+                    #print('does the position x match? ',boardx, ' to ',valuex1)
+                    #print('does the position y match? ',boardy, ' to ',valuey1)
 
                     self.motion.RankScale = round( (valuex2 - valuex1) / (rank2 - rank1), 2)
                     self.motion.FileScale = round( (valuey2 - valuey1) / (file2 - file1),2)
